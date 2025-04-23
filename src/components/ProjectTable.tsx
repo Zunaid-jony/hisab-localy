@@ -54,6 +54,7 @@ type Project = {
   date: string;
   totalCost: number;
   shahadotAmount: number;
+  iwillgetmoney: number;
   jonyAmount: number;
   shahadotStatus: string;
   jonyStatus: string;
@@ -174,6 +175,7 @@ export default function ProjectsPage() {
 - Date: ${projectToShare.date}
 - Total Cost: ${projectToShare.totalCost}৳
 - Shahadot's Amount: ${projectToShare.shahadotAmount}৳
+- i will get money: ${projectToShare?.iwillgetmoney}৳
 - Jony's Amount: ${projectToShare.jonyAmount}৳
 - Shahadot's Status: ${projectToShare.shahadotStatus}
 - Jony's Status: ${projectToShare.jonyStatus}`,
@@ -202,6 +204,7 @@ export default function ProjectsPage() {
       `Date: ${projectToShare.date}\n` +
       `Total Cost: ${projectToShare.totalCost}৳\n` +
       `Shahadot's Amount: ${projectToShare.shahadotAmount}৳\n` +
+      `i will get money: ${projectToShare?.iwillgetmoney}৳\n` +
       `Jony's Amount: ${projectToShare.jonyAmount}৳\n` +
       `Shahadot's Status: ${projectToShare.shahadotStatus}\n` +
       `Jony's Status: ${projectToShare.jonyStatus}`;
@@ -223,6 +226,7 @@ export default function ProjectsPage() {
       `Date: ${projectToShare.date}\n` +
       `Total Cost: ${projectToShare.totalCost}৳\n` +
       `Shahadot's Amount: ${projectToShare.shahadotAmount}৳\n` +
+      `i will get money: ${projectToShare?.iwillgetmoney}৳\n` +
       `Jony's Amount: ${projectToShare.jonyAmount}৳\n` +
       `Shahadot's Status: ${projectToShare.shahadotStatus}\n` +
       `Jony's Status: ${projectToShare.jonyStatus}`;
@@ -261,6 +265,7 @@ export default function ProjectsPage() {
           project.shahadotStatus,
           project.jonyStatus,
           project.shahadotAmount - project.jonyAmount,
+          project?.iwillgetmoney, 
         ].join(",")
       ),
     ].join("\n");
@@ -308,7 +313,12 @@ export default function ProjectsPage() {
             <p className="opacity-90">
               Track and manage all your projects in one place
             </p>
+            <p className="font-bold text-2xl text-center  text-red-600">
+              <span className="text-xl  mr-4 ml-4">Total Diu</span>
+              {projects.reduce((sum, p) => sum + p.iwillgetmoney - p?.jonyAmount, 0)
+                        .toLocaleString()}</p>
           </div>
+
           <Button
             onClick={() => {
               setCurrentProject(null);
@@ -395,6 +405,9 @@ export default function ProjectsPage() {
                       </TableCell>
                       <TableCell>
                         {project.shahadotAmount.toLocaleString()}৳
+                      </TableCell>
+                      <TableCell>
+                        {project?.iwillgetmoney?.toLocaleString()}৳
                       </TableCell>
                       <TableCell>
                         {" "}
@@ -537,12 +550,20 @@ export default function ProjectsPage() {
                       ৳
                     </TableCell>
                     <TableCell>
+  {projects
+    .reduce((sum, p) => sum + (typeof p.iwillgetmoney === 'number' ? p.iwillgetmoney : 0), 0)
+    .toLocaleString()} ৳
+</TableCell>
+
+                    <TableCell>
                       {projects
                         .reduce((sum, p) => sum + p.jonyAmount, 0)
                         .toLocaleString()}
                       ৳
                     </TableCell>
                     <TableCell colSpan={2}></TableCell>
+                    
+                    
                     <TableCell>
                       {projects
                         .reduce(
@@ -591,6 +612,7 @@ export default function ProjectsPage() {
                     date: formData.get("date") as string,
                     totalCost: Number(formData.get("totalCost")),
                     shahadotAmount: Number(formData.get("shahadotAmount")),
+                    iwillgetmoney: Number(formData.get("iwillgetmoney")),
                     jonyAmount: Number(formData.get("jonyAmount")),
                     shahadotStatus: formData.get("shahadotStatus") as string,
                     jonyStatus: formData.get("jonyStatus") as string,
@@ -639,6 +661,17 @@ export default function ProjectsPage() {
                       id="shahadotAmount"
                       name="shahadotAmount"
                       defaultValue={currentProject?.shahadotAmount}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="iwillgetmoney">i will get money (৳)</Label>
+                    <Input
+                      type="number"
+                      id="iwillgetmoney"
+                      name="iwillgetmoney"
+                      defaultValue={currentProject?.iwillgetmoney}
                       required
                     />
                   </div>
