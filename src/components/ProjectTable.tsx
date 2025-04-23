@@ -265,7 +265,7 @@ export default function ProjectsPage() {
           project.shahadotStatus,
           project.jonyStatus,
           project.shahadotAmount - project.jonyAmount,
-          project?.iwillgetmoney, 
+          project?.iwillgetmoney,
         ].join(",")
       ),
     ].join("\n");
@@ -315,8 +315,10 @@ export default function ProjectsPage() {
             </p>
             <p className="font-bold text-2xl text-center  text-red-600">
               <span className="text-xl  mr-4 ml-4">Total Diu</span>
-              {projects.reduce((sum, p) => sum + p.iwillgetmoney - p?.jonyAmount, 0)
-                        .toLocaleString()}</p>
+              {projects
+                .reduce((sum, p) => sum + p.iwillgetmoney - p?.jonyAmount, 0)
+                .toLocaleString()}
+            </p>
           </div>
 
           <Button
@@ -363,8 +365,10 @@ export default function ProjectsPage() {
                 <TableHead className="font-semibold">Date</TableHead>
                 <TableHead className="font-semibold">Total Cost</TableHead>
                 <TableHead className="font-semibold">Shahadot</TableHead>
-                <TableHead className="font-semibold">Jony</TableHead>
+                <TableHead className="font-semibold">I Will Get M</TableHead>
+                <TableHead className="font-semibold">Paybole Jony</TableHead>
                 <TableHead className="font-semibold">Shahadot Status</TableHead>
+
                 <TableHead className="font-semibold">Jony Status</TableHead>
                 <TableHead className="font-semibold">Diu Total</TableHead>
                 <TableHead className="font-semibold no-print">
@@ -491,11 +495,38 @@ export default function ProjectsPage() {
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
-                      <TableCell className="font-medium">
-                        <span className="bg-red-500 px-3 rounded-md text-white ">
+                      <TableCell className="font-medium ">
+                     
+                       <div className="relative group inline-block">
+                          <span className="px-3 bg-yellow-400 rounded-md text-white mr-2 cursor-pointer">
+                            {(
+                              project.shahadotAmount / 2 -
+                              project.jonyAmount
+                            ).toLocaleString()}{" "}
+                          </span>
+
+                          {/* Tooltip Message */}
+                          {/*  {project.shahadotAmount.toLocaleString()}৳ */}
+                          <div className="absolute bottom-full mb-2 left-1/2 w-40 -translate-x-1/2 px-3 py-1 text-sm bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                           Total thake  {(
+                              project.shahadotAmount 
+                            ).toLocaleString()}{" "}  /  2  = {(
+                              project.shahadotAmount / 2
+                            ).toLocaleString()}{" "} - {(
+                              project.jonyAmount 
+                            ).toLocaleString()}{" "} =   {(
+                              project.shahadotAmount / 2 -
+                              project.jonyAmount
+                            ).toLocaleString()}{" "}
+                            ৳
+                          </div>
+                        </div>
+
+                      
+
+                        <span className="bg-red-500 px-3 cursor-not-allowed rounded-md text-white  select-none block">
                           {(
-                            project.shahadotAmount / 2 -
-                            project.jonyAmount
+                            project.iwillgetmoney - project.jonyAmount
                           ).toLocaleString()}
                           ৳
                         </span>
@@ -550,10 +581,18 @@ export default function ProjectsPage() {
                       ৳
                     </TableCell>
                     <TableCell>
-  {projects
-    .reduce((sum, p) => sum + (typeof p.iwillgetmoney === 'number' ? p.iwillgetmoney : 0), 0)
-    .toLocaleString()} ৳
-</TableCell>
+                      {projects
+                        .reduce(
+                          (sum, p) =>
+                            sum +
+                            (typeof p.iwillgetmoney === "number"
+                              ? p.iwillgetmoney
+                              : 0),
+                          0
+                        )
+                        .toLocaleString()}{" "}
+                      ৳
+                    </TableCell>
 
                     <TableCell>
                       {projects
@@ -562,8 +601,7 @@ export default function ProjectsPage() {
                       ৳
                     </TableCell>
                     <TableCell colSpan={2}></TableCell>
-                    
-                    
+
                     <TableCell>
                       {projects
                         .reduce(
@@ -676,16 +714,7 @@ export default function ProjectsPage() {
                     />
                   </div>
 
-                  <div>
-                    <Label htmlFor="totalCost">i will get money (৳)</Label>
-                    <Input
-                      type="number"
-                      id="totalCost"
-                      name="totalCost"
-                      defaultValue={currentProject?.totalCost}
-                      required
-                    />
-                  </div>
+                 
                   <div>
                     <Label htmlFor="jonyAmount">Jony's Amount (৳)</Label>
                     <Input
